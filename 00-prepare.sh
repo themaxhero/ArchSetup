@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: Add boot partition and mkfs.vfat -F32 $BOOT_PARTITION
-
 # Partitioning
 cryptsetup -v luksFormat $DEVICE
 cryptsetup open $DEVICE root
@@ -27,6 +25,10 @@ mount -o noatime,compress=zstd,subvol=@var $BTRFS_DEVICE /mnt/var
 mount -o noatime,compress=zstd,subvol=@nix $BTRFS_DEVICE /mnt/nix
 mount -o noatime,compress=zstd,subvol=@opt $BTRFS_DEVICE /mnt/opt
 mount -o noatime,compress=zstd,subvol=@snapshots $BTRFS_DEVICE /mnt/.snapshots
+
+# Decided to not format boot partition because that could mess up a dual boot system.
+# Maybe add a choice to the script? Maybe that would be too much complexity to handle here?
+mount $BOOT_DEVICE /mnt/boot
 
 # Bootstrap System inside the /mnt
 pacstrap -K /mnt base base-devel linux linux-firmware
