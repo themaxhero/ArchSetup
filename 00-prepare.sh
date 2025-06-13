@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: Add boot partition and mkfs.vfat -F32 $BOOT_PARTITION
+
 # Partitioning
 cryptsetup -v luksFormat $DEVICE
 cryptsetup open $DEVICE root
